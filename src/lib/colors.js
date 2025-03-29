@@ -1,6 +1,6 @@
 export const colors = {
   // Authentication colors
-  authBgColor: "#009FFD",
+  authBgColor: "#A3F600",
 
   // You can add more color categories here as needed
   // Example:
