@@ -4,14 +4,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Signup from "./components/Signup";
+import Authenticate from "./components/Authenticate";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Navigate to="/signup" replace />} />
+        <Route path="/auth" element={<Authenticate />} />
+        <Route path="/" element={<Navigate to="/auth" replace />} />
       </Routes>
     </Router>
   );
