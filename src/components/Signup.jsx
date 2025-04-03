@@ -1,11 +1,14 @@
 import { Github, Chrome, Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { React, useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { authService } from "../api/services/authService";
 
-const SignUp = () => {
+const SignUp = ({ onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,10 +26,7 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -36,7 +36,7 @@ const SignUp = () => {
     try {
       await authService.register(formData);
       toast.success("Account created successfully!");
-      window.location.href = "/home";
+      navigate("/home");
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -122,13 +122,13 @@ const SignUp = () => {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#A3F600]`}
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#A3F600]"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <p className="text-xs text-gray-500 mt-1 text-left">
+          <p className="mt-1 text-xs text-left text-gray-500">
             Must be at least 8 characters.
           </p>
         </div>
@@ -143,13 +143,13 @@ const SignUp = () => {
           </button>
         </div>
 
-        <div className="flex items-center gap-4 justify-center mt-8">
+        <div className="flex items-center justify-center gap-4 mt-8">
           <div className="h-[1px] bg-gray-700 flex-1" />
           <span className="text-[14px] text-gray-300">or</span>
           <div className="h-[1px] bg-gray-700 flex-1" />
         </div>
 
-        <div className="flex gap-4 justify-center">
+        <div className="flex justify-center gap-4">
           <button type="button" className={buttonClasses}>
             <Chrome className="w-5 h-5" />
             Google
@@ -160,15 +160,15 @@ const SignUp = () => {
           </button>
         </div>
 
-        <div className="text-center mt-6">
+        <div className="mt-6 text-center">
           <p className="text-sm text-gray-300">
             Already have an account?{" "}
-            <a
-              href="/auth?mode=login"
-              className={`text-[#A3F600] hover:underline`}
+            <span
+              className="text-[#A3F600] cursor-pointer hover:underline"
+              onClick={onSwitch}
             >
-              Log in
-            </a>
+              Login
+            </span>
           </p>
         </div>
       </form>

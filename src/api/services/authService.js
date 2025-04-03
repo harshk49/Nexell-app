@@ -1,30 +1,37 @@
 import api from "../config";
 
 export const authService = {
-  // Login user
+  // Login user with provided credentials
   login: async (credentials) => {
     const response = await api.post("/auth/login", credentials);
+
+    // If login is successful and token is received, store it in localStorage
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
     }
+
     return response.data;
   },
 
-  // Register user
+  // Register a new user with the given user data
   register: async (userData) => {
     const response = await api.post("/auth/register", userData);
+
+    // If registration is successful and token is received, store it in localStorage
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+    }
+
     return response.data;
   },
 
-  // Logout user
+  // Logout the user by clearing authentication data
   logout: () => {
-    localStorage.removeItem("token");
-    // Additional cleanup if needed
-  },
+    localStorage.removeItem("token"); // Remove authentication token
+    localStorage.removeItem("user"); // Remove stored user details
 
-  // Get current user
-  getCurrentUser: async () => {
-    const response = await api.get("/auth/me");
-    return response.data;
+    // Additional cleanup can be done here if necessary (e.g., redirecting user)
   },
 };
