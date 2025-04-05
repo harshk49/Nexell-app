@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: "https://tasknexus-backend.onrender.com/api",
+  baseURL: "https://nexell-js.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,7 +31,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      window.location.href = "/auth?mode=login";
     }
     return Promise.reject(error);
   }

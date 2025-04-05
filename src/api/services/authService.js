@@ -28,10 +28,35 @@ export const authService = {
   },
 
   // Logout the user by clearing authentication data
-  logout: () => {
-    localStorage.removeItem("token"); // Remove authentication token
-    localStorage.removeItem("user"); // Remove stored user details
+  logout: async () => {
+    try {
+      // Optional: Call the backend logout endpoint
+      await api.post("/auth/logout");
+    } catch (error) {
+      console.error("Logout API error:", error);
+    } finally {
+      // Always clear local storage even if API call fails
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    }
+  },
 
-    // Additional cleanup can be done here if necessary (e.g., redirecting user)
+  // OAuth methods temporarily removed for initial deployment
+  // Will be implemented after frontend deployment
+
+  // Check if user is authenticated
+  isAuthenticated: () => {
+    return !!localStorage.getItem("token");
+  },
+
+  // Get current user data
+  getCurrentUser: () => {
+    const userStr = localStorage.getItem("user");
+    return userStr ? JSON.parse(userStr) : null;
+  },
+
+  // Get auth token
+  getToken: () => {
+    return localStorage.getItem("token");
   },
 };

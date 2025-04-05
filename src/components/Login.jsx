@@ -1,6 +1,20 @@
-import { Github, Chrome, Eye } from "lucide-react";
+import { useState } from "react";
+import { Github, Chrome, Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../api/services/authService";
 
 const Login = ({ onSwitch }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    emailOrUsername: "",
+    password: "",
+  });
+
   // Input styling classes for reuse
   const inputClasses =
     "w-full p-[10px] rounded-lg bg-[#000000] text-white border border-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#A3F600] hover:border-[#A3F600] transition-all duration-300 text-[14px]";
@@ -13,6 +27,36 @@ const Login = ({ onSwitch }) => {
   const buttonClasses =
     "px-4 py-[10px] border border-gray-700 rounded-lg text-[#000000] flex items-center gap-2 bg-[#A3F600] hover:bg-[#000000] hover:text-white hover:border-[#A3F600] transition-all duration-300 text-[14px]";
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await authService.login(formData);
+      toast.success("Login successful!");
+      navigate("/home");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    authService.googleAuth();
+  };
+
+  const handleGithubLogin = () => {
+    authService.githubAuth();
+  };
+
   return (
     <div className="w-full max-w-md p-6 mx-auto">
       {/* Heading */}
@@ -22,13 +66,16 @@ const Login = ({ onSwitch }) => {
       </p>
 
       {/* Login Form */}
-      <form className="space-y-6">
-        {/* Email Input */}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Email or Username Input */}
         <div>
-          <label className={labelClasses}>Email</label>
+          <label className={labelClasses}>Email or Username</label>
           <input
-            type="email"
-            placeholder="Enter your email"
+            type="text"
+            name="emailOrUsername"
+            value={formData.emailOrUsername}
+            onChange={handleChange}
+            placeholder="Enter your email or username"
             className={inputClasses}
             required
           />
@@ -39,16 +86,20 @@ const Login = ({ onSwitch }) => {
           <label className={labelClasses}>Password</label>
           <div className="relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               className={inputClasses}
               required
             />
             <button
               type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#A3F600]"
             >
-              <Eye size={20} />
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
         </div>
@@ -58,9 +109,15 @@ const Login = ({ onSwitch }) => {
           <div className="flex items-center">
             <input
               type="checkbox"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={() => setRememberMe((prev) => !prev)}
               className="w-4 h-4 rounded border-gray-700 text-[#A3F600] focus:ring-[#A3F600] bg-[#000000]"
             />
-            <label className="ml-2 text-[14px] text-gray-300">
+            <label
+              htmlFor="rememberMe"
+              className="ml-2 text-[14px] text-gray-300"
+            >
               Remember me
             </label>
           </div>
@@ -73,30 +130,14 @@ const Login = ({ onSwitch }) => {
         <div>
           <button
             type="submit"
+            disabled={loading}
             className={`${buttonClasses} w-full justify-center`}
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </div>
 
-        {/* Divider for Alternative Sign-in Options */}
-        <div className="flex items-center justify-center gap-4">
-          <div className="h-[1px] bg-gray-700 flex-1" />
-          <span className="text-[14px] text-gray-300">or</span>
-          <div className="h-[1px] bg-gray-700 flex-1" />
-        </div>
-
-        {/* Social Login Buttons */}
-        <div className="flex justify-center gap-4">
-          <button type="button" className={buttonClasses}>
-            <Chrome className="w-5 h-5" />
-            Google
-          </button>
-          <button type="button" className={buttonClasses}>
-            <Github className="w-5 h-5" />
-            GitHub
-          </button>
-        </div>
+        {/* OAuth buttons temporarily removed for initial deployment */}
 
         {/* Switch to Signup Option */}
         <div className="text-center">

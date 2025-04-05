@@ -47,6 +47,14 @@ const SignUp = ({ onSwitch }) => {
     }
   };
 
+  const handleGoogleSignup = () => {
+    authService.googleAuth();
+  };
+
+  const handleGithubSignup = () => {
+    authService.githubAuth();
+  };
+
   return (
     <div className="w-full px-4 md:px-10">
       <h1 className="text-[22px] mb-1 text-white">Sign Up Account</h1>
@@ -143,22 +151,7 @@ const SignUp = ({ onSwitch }) => {
           </button>
         </div>
 
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <div className="h-[1px] bg-gray-700 flex-1" />
-          <span className="text-[14px] text-gray-300">or</span>
-          <div className="h-[1px] bg-gray-700 flex-1" />
-        </div>
-
-        <div className="flex justify-center gap-4">
-          <button type="button" className={buttonClasses}>
-            <Chrome className="w-5 h-5" />
-            Google
-          </button>
-          <button type="button" className={buttonClasses}>
-            <Github className="w-5 h-5" />
-            GitHub
-          </button>
-        </div>
+        {/* OAuth buttons temporarily removed for initial deployment */}
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-300">
