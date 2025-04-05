@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 // Components
 import Authenticate from "./components/Authenticate";
 import ProtectedRoute from "./components/ProtectedRoute";
-// OAuth components temporarily removed for initial deployment
+import OAuthCallback from "./components/OAuthCallback";
 
 // Pages
 import Home from "./pages/Home";
@@ -27,6 +27,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/auth" element={<Authenticate />} />
         <Route path="/" element={<Navigate to="/auth" replace />} />
+        <Route path="/oauth/callback" element={<OAuthCallback />} />
 
         {/* Protected Routes */}
         {/* Home Route - Temporarily public for testing */}

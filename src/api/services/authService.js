@@ -41,8 +41,40 @@ export const authService = {
     }
   },
 
-  // OAuth methods temporarily removed for initial deployment
-  // Will be implemented after frontend deployment
+  // OAuth methods for Google and GitHub authentication
+  googleAuth: () => {
+    // Redirect to backend's Google OAuth endpoint
+    window.location.href = `https://nexell-js.onrender.com/api/auth/google?redirect_uri=${encodeURIComponent(
+      "https://nexell-digitalhub.vercel.app/oauth/callback"
+    )}`;
+  },
+
+  githubAuth: () => {
+    // Redirect to backend's GitHub OAuth endpoint
+    window.location.href = `https://nexell-js.onrender.com/api/auth/github?redirect_uri=${encodeURIComponent(
+      "https://nexell-digitalhub.vercel.app/oauth/callback"
+    )}`;
+  },
+
+  // Handle OAuth callback with token
+  handleOAuthCallback: (token) => {
+    if (!token) return false;
+
+    try {
+      // Store the token in localStorage
+      localStorage.setItem("token", token);
+
+      // Fetch user data using the token
+      // This would typically be an API call, but for now we'll just set a placeholder
+      // The actual user data would come from a /me endpoint using the token
+      localStorage.setItem("user", JSON.stringify({ id: "oauth-user" }));
+
+      return true;
+    } catch (error) {
+      console.error("OAuth callback handling error:", error);
+      return false;
+    }
+  },
 
   // Check if user is authenticated
   isAuthenticated: () => {
