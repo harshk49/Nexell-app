@@ -137,7 +137,32 @@ const Login = ({ onSwitch }) => {
           </button>
         </div>
 
-        {/* OAuth buttons temporarily removed for initial deployment */}
+        {/* OAuth Divider */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-700"></div>
+          <span className="px-3 text-sm text-gray-400">Or continue with</span>
+          <div className="flex-grow border-t border-gray-700"></div>
+        </div>
+
+        {/* OAuth Buttons */}
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={handleGithubLogin}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-black text-white border border-gray-700 rounded-lg hover:border-[#A3F600] transition-all duration-300"
+          >
+            <Github size={18} />
+            <span>GitHub</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg hover:border-[#A3F600] transition-all duration-300"
+          >
+            <Chrome size={18} />
+            <span>Google</span>
+          </button>
+        </div>
 
         {/* Switch to Signup Option */}
         <div className="text-center">
