@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,6 +19,26 @@ import Tasks from "./pages/Tasks";
 import Notes from "./pages/Notes";
 
 function App() {
+  useEffect(() => {
+    // Ping the backend to wake it up when the app loads
+    const pingServer = async () => {
+      try {
+        const response = await fetch("https://nexell-js.onrender.com/ping", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        console.log("Server ping successful:", data);
+      } catch (error) {
+        console.error("Server ping failed:", error);
+      }
+    };
+
+    pingServer();
+  }, []);
+
   return (
     <Router>
       {/* Toast notifications container */}
