@@ -18,11 +18,11 @@ const SignUp = ({ onSwitch }) => {
   });
 
   const inputClasses =
-    "w-full p-[10px] rounded-lg bg-[#000000] text-white border border-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#A3F600] hover:border-[#A3F600] transition-all duration-300 text-[14px]";
+    "w-full p-[10px] rounded-lg bg-[#000000] text-white border border-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#F5F5F5] hover:border-[#F5F5F5] transition-all duration-300 text-[14px]";
   const labelClasses =
     "block text-[12px] mb-1 text-white text-left font-medium";
   const buttonClasses =
-    "px-4 py-[10px] border border-gray-700 rounded-lg text-[#000000] flex items-center gap-2 bg-[#A3F600] hover:bg-[#000000] hover:text-white hover:border-[#A3F600] transition-all duration-300 text-[14px]";
+    "px-4 py-[10px] border border-gray-700 rounded-lg text-[#000000] flex items-center gap-2 bg-[#F5F5F5] hover:bg-[#000000] hover:text-white hover:border-[#F5F5F5] transition-all duration-300 text-[14px]";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -131,7 +131,7 @@ const SignUp = ({ onSwitch }) => {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#A3F600]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#F5F5F5]"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -163,7 +163,7 @@ const SignUp = ({ onSwitch }) => {
           <button
             type="button"
             onClick={handleGithubSignup}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-black text-white border border-gray-700 rounded-lg hover:border-[#A3F600] transition-all duration-300"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-black text-white border border-gray-700 rounded-lg hover:border-[#F5F5F5] transition-all duration-300"
           >
             <Github size={18} />
             <span>GitHub</span>
@@ -171,7 +171,7 @@ const SignUp = ({ onSwitch }) => {
           <button
             type="button"
             onClick={handleGoogleSignup}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg hover:border-[#A3F600] transition-all duration-300"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-[#F5F5F5] text-gray-800 border border-gray-300 rounded-lg hover:border-[#F5F5F5] transition-all duration-300"
           >
             <Chrome size={18} />
             <span>Google</span>
@@ -182,7 +182,7 @@ const SignUp = ({ onSwitch }) => {
           <p className="text-sm text-gray-300">
             Already have an account?{" "}
             <span
-              className="text-[#A3F600] cursor-pointer hover:underline"
+              className="text-[#F5F5F5] cursor-pointer hover:underline"
               onClick={onSwitch}
             >
               Login
