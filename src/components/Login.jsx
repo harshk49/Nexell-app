@@ -3,12 +3,14 @@ import { Github, Chrome, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../api/services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const Login = ({ onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     emailOrUsername: "",
@@ -37,7 +39,7 @@ const Login = ({ onSwitch }) => {
     setLoading(true);
 
     try {
-      await authService.login(formData);
+      await login(formData);
       toast.success("Login successful!");
       navigate("/home");
     } catch (error) {

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { authService } from "../api/services/authService";
+import { useAuth } from "../context/AuthContext";
 
 /**
  * ProtectedRoute component to handle authentication protection
@@ -7,11 +7,13 @@ import { authService } from "../api/services/authService";
  */
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const isAuthenticated = authService.isAuthenticated();
+  const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated()) {
     // Redirect to login if not authenticated
-    return <Navigate to="/auth?mode=login" state={{ from: location }} replace />;
+    return (
+      <Navigate to="/auth?mode=login" state={{ from: location }} replace />
+    );
   }
 
   return children;

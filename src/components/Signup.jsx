@@ -3,11 +3,13 @@ import { React, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../api/services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const SignUp = ({ onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -34,7 +36,7 @@ const SignUp = ({ onSwitch }) => {
     setLoading(true);
 
     try {
-      await authService.register(formData);
+      await register(formData);
       toast.success("Account created successfully!");
       navigate("/home");
     } catch (error) {

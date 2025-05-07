@@ -15,8 +15,9 @@ import OAuthCallback from "./components/OAuthCallback";
 
 // Pages
 import Home from "./pages/Home";
-import Tasks from "./pages/Tasks";
-import Notes from "./pages/Notes";
+
+// Context
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   useEffect(() => {
@@ -40,40 +41,32 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      {/* Toast notifications container */}
-      <ToastContainer position="top-right" autoClose={5000} />
+    <AuthProvider>
+      <Router>
+        {/* Toast notifications container */}
+        <ToastContainer position="top-right" autoClose={5000} />
 
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/auth" element={<Authenticate />} />
-        <Route path="/" element={<Navigate to="/auth" replace />} />
-        <Route path="/oauth/callback" element={<OAuthCallback />} />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/auth" element={<Authenticate />} />
+          <Route path="/" element={<Navigate to="/auth" replace />} />
+          <Route path="/oauth/callback" element={<OAuthCallback />} />
 
-        {/* Protected Routes */}
-        {/* Home Route - Temporarily public for testing */}
-        <Route path="/home" element={<Home />} />
-        <Route
-          path="/tasks"
-          element={
-            <ProtectedRoute>
-              <Tasks />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/notes"
-          element={
-            <ProtectedRoute>
-              <Notes />
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected Home Route */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* 404 Route - redirects to home if authenticated, otherwise to login */}
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Routes>
-    </Router>
+          {/* 404 Route - redirects to home if authenticated, otherwise to login */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
